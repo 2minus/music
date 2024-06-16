@@ -4,16 +4,14 @@ import com.prac.music.domain.comment.entity.Comment;
 import com.prac.music.domain.user.entity.BaseTimeEntity;
 import com.prac.music.domain.user.entity.User;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED) // 기본 생성자는 protected로 설정합니다.
+@NoArgsConstructor // 기본 생성자는 protected로 설정합니다.
+@AllArgsConstructor
 @Entity
 @Table(name = "board")
 public class Board extends BaseTimeEntity {
@@ -39,6 +37,7 @@ public class Board extends BaseTimeEntity {
 
 	@Builder
 	public Board(String title, String contents, User user) {
+		this.id = id;
 		this.title = title;
 		this.contents = contents;
 		this.user = user;

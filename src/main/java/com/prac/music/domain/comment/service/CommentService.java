@@ -35,7 +35,7 @@ public class CommentService {
 		Comment comment = Comment.builder()
 			.contents(requestDto.getContents())
 			.board(findBoard)
-			.user(persistentUser)
+			.user(user)
 			.build();
 
 		Comment savedComment = commentRepository.save(comment);

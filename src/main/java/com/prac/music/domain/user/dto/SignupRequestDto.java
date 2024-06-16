@@ -2,9 +2,11 @@ package com.prac.music.domain.user.dto;
 
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
+@AllArgsConstructor
 public class SignupRequestDto {
     // 기본적인 영문, 숫자를 조합하여 최소 6자리 이상 최대 16자리 이하
     @Pattern(regexp = "^[A-Za-z0-9]{6,16}$")

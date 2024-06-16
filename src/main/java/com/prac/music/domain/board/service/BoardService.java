@@ -41,11 +41,11 @@ public class BoardService {
 	@Transactional
 	public BoardResponseDto createBoard(BoardRequestDto requestDto,
 		User user, List<MultipartFile> files) throws IOException {
-		User persistentUser = findUserById(user.getId());
+		//User persistentUser = findUserById(user.getId());
 		Board board = Board.builder()
 			.title(requestDto.getTitle())
 			.contents(requestDto.getContents())
-			.user(persistentUser)
+			.user(user)
 			.build();
 		boardRepository.save(board);
 

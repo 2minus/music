@@ -45,6 +45,36 @@ private void user() {}
     - `@Test` 를 사용해서 DTO 와 Entity Test 를 추가합니다.
     - User, Post, Comment, DTO 에 존재하는 메서드들에 대해서 “**단위 테스트”** 를 추가합니다.
     - 특정 상황에 예외가 정상적으로 발생하고 있는지도 테스트 합니다.
+```java
+@Test
+    @DisplayName("User Entity Test")
+    void test1() throws IOException {
+        // given
+        SignupRequestDto requestDto = new SignupRequestDto(
+                "testId1",
+                "testPassword1!",
+                "testName",
+                "test@email.com",
+                "test Introduce"
+        );
+
+        MultipartFile file = null;
+
+        // when
+        User user = userService.createUser(requestDto, file);
+
+        // then
+        assertEquals(requestDto.getUserId(), user.getUserId());
+        assertTrue(passwordEncoder.matches(requestDto.getPassword(), user.getPassword()));
+        assertEquals(requestDto.getName(), user.getName());
+        assertEquals(requestDto.getEmail(), user.getEmail());
+        assertEquals(requestDto.getIntro(), user.getIntro());
+    }
+```
+- given 에 입력값, when에 생성 메서드(Post api)를 동작시켜 비교시켜 테스트
+![EntityTestResult.png](images/EntityTestResult.png)
+   - 게시글과 댓글은 종속된 엔티티가 테스트 코드 내에서 제대로 존재하지 않아서 통과하지 못하는 것으로 보인다.
+
 
 - [ ]  **🆕 Controller Test 추가하기**
     - `@WebMvcTest` 를 사용하여 Controller Test 를 추가합니다.
