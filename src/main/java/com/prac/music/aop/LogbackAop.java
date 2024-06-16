@@ -14,24 +14,24 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class LogbackAop {
 
-    @Pointcut("execution(* com.prac.music.domain.board.controller.*(..))")
+    @Pointcut("execution(* com.prac.music.domain.board.controller.*.*(..))")
     private void board() {}
 
-    @Pointcut("execution(* com.prac.music.domain.comment.controller.*(..))")
+    @Pointcut("execution(* com.prac.music.domain.comment.controller.*.*(..))")
     private void comment() {}
 
-    @Pointcut("execution(* com.prac.music.domain.like.controller.*(..))")
+    @Pointcut("execution(* com.prac.music.domain.like.controller.*.*(..))")
     private void like() {}
 
-    @Pointcut("execution(* com.prac.music.domain.mail.controller.*(..))")
+    @Pointcut("execution(* com.prac.music.domain.mail.controller.*.*(..))")
     private void mail() {}
 
-    @Pointcut("execution(* com.prac.music.domain.user.controller.*(..))")
+    @Pointcut("execution(* com.prac.music.domain.user.controller.*.*(..))")
     private void user() {}
 
-    @Around("board() && comment() && like() && mail() && user()" )
+    @Around("board() || comment() || like() || mail() || user()" )
     public Object execute(ProceedingJoinPoint joinPoint) throws Throwable {
-        log.info(joinPoint.getSignature().toShortString() + " start");
+        log.info(joinPoint.getSignature().toShortString() + " 을 시작합니다.");
 
         try {
 
@@ -39,7 +39,7 @@ public class LogbackAop {
 
         } finally {
 
-            log.info(joinPoint.getSignature().toShortString() + " end");
+            log.info(joinPoint.getSignature().toShortString() + " 가 끝났습니다.");
 
         }
     }

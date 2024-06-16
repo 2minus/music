@@ -1,45 +1,59 @@
-# :musical_keyboard: 뮤직 뉴스피드
-# :guitar: 음악에 대한 이슈들이 있는 웹 페이지 입니다.
+## ❗필수 구현 기능
+- [X]  **🆕 AOP 추가하기**
+    - 모든 API(Controller)가 호출될 때, Request 정보(Request URL, HTTP Method)를
+      **@Slf4J Logback** 라이브러리를  활용하여 Log로 출력해주세요.
+    - 컨트롤러 마다 로그를 출력하는 코드를 추가하는것이 아닌, AOP로 구현해야만 합니다.
+```java
+@Pointcut("execution(* com.prac.music.domain.board.controller.*.*(..))")
+private void board() {}
 
-# :wrench: 사용 기술
-### 1. Java 17
-### 2. Spring Boot 3.3.0
-### 3. Google SMTP
-### 4. AWS S3
-### 5. MySQL 8.0.28
-### 6. AOP
-### 7. SpringSecurity
-### 8. JWT
-### 9. JPA
-### 10. GitHub
+@Pointcut("execution(* com.prac.music.domain.comment.controller.*.*(..))")
+private void comment() {}
 
-# :pick: 담당기능
+@Pointcut("execution(* com.prac.music.domain.like.controller.*.*(..))")
+private void like() {}
 
-# 이세비 
-### 1. 회원가입
-### 2. 로그인
+@Pointcut("execution(* com.prac.music.domain.mail.controller.*.*(..))")
+private void mail() {}
 
-# 박태순
-### 1. 게시글 CRUD 및 페이징
-### 2. 댓글 CRUD
+@Pointcut("execution(* com.prac.music.domain.user.controller.*.*(..))")
+private void user() {}
 
-# 박민영
-### 1. 프로필 수정 및 조회
-### 2. 좋아요 기능
-### 3. 발표 및 시연영상 제작
+@Around("board() || comment() || like() || mail() || user()" )
+    public Object execute(ProceedingJoinPoint joinPoint) throws Throwable {
+        log.info(joinPoint.getSignature().toShortString() + " start");
 
-# 이민호
-### 1. 로그아웃 및 회원탈퇴
-### 2. 이메일 인증 구현
+        try {
 
-# 함승완
-### 1. AWS S3를 이용한 미디어파일 기능 구현
+            return joinPoint.proceed();
 
-# ERD
-![Untitled (1)](https://github.com/hamseungwan2023/music/assets/125807759/3a5de27a-f333-4903-9a02-19d2ed68d8c1)
+        } finally {
 
-# 와이어프레임
-![Untitled (2)](https://github.com/hamseungwan2023/music/assets/125807759/cd3fd612-1f12-45a6-b2ae-3a18566d31a3)
+            log.info(joinPoint.getSignature().toShortString() + " end");
 
-# API 명세서 
-[API 명세서](https://www.notion.so/4c0e907c3a1149aea4cbbb3bdebc3af3?pvs=21)
+        }
+    }
+```
+![logAopConsole.png](images/logAopConsole.png)
+- api가 실행될때, 끝날때 api의 이름을 출력하는 log 
+  - domain 방식으로 설계된 프로젝트여서 각각의 controller를 지정하는 @Pointcut이 많은 것이 아닌가라는 생각이 든다.
+
+
+
+
+- [ ]  **🆕 DTO, Entity Test 추가하기**
+    - `@Test` 를 사용해서 DTO 와 Entity Test 를 추가합니다.
+    - User, Post, Comment, DTO 에 존재하는 메서드들에 대해서 “**단위 테스트”** 를 추가합니다.
+    - 특정 상황에 예외가 정상적으로 발생하고 있는지도 테스트 합니다.
+
+- [ ]  **🆕 Controller Test 추가하기**
+    - `@WebMvcTest` 를 사용하여 Controller Test 를 추가합니다.
+    - Post, Comment Controller 에 대해서 테스트를 추가합니다.
+    - 특정 상황에 예외가 정상적으로 발생하고 있는지도 테스트 합니다.
+
+- [ ]  **🆕 Service Test 추가하기**
+    - `@ExtendWith` 를 사용하여 Service Test 를 추가합니다.
+    - User, UserDetails, Post, Comment Service 에 대해서 **“통합 테스트”** 를 추가합니다.
+    - 단순 DB CRUD 와 별개로 코드 레벨에서의 비즈니스 로직에 대한 테스트가 필요한 경우라면 “**단위 테스트**”를 추가합니다.
+        - ex) 비밀번호가 암호화 되었는가
+    - 특정 상황에 예외가 정상적으로 발생하고 있는지도 테스트 합니다.
