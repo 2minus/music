@@ -55,10 +55,10 @@ public class UserService {
         User user = User.builder()
                 .userId(userId)
                 .password(password)
+                .status(UserStatusEnum.TEMPORARY)
                 .name(requestDto.getName())
                 .email(requestDto.getEmail())
                 .intro(requestDto.getIntro())
-                .userStatusEnum(UserStatusEnum.TEMPORARY)
                 .profileImage(imageUrl)
                 .build();
 
@@ -107,6 +107,6 @@ public class UserService {
     }
 
     private boolean checkUserStatus(User user) {
-        return user.getUserStatusEnum().equals(UserStatusEnum.NORMAL);
+        return user.getStatus().equals(UserStatusEnum.NORMAL);
     }
 }

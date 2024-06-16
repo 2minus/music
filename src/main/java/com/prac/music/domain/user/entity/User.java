@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 
 
 @Entity
@@ -34,8 +35,9 @@ public class User extends BaseTimeEntity {
     @Column(nullable = false, name = "intro")
     private String intro;
 
-    @Column(nullable = false, name = "status")
-    private UserStatusEnum userStatusEnum;
+    @Column(nullable = false)
+    @Enumerated(value = EnumType.STRING)
+    private UserStatusEnum status;
 
     @Column(name = "refresh_token")
     private String refreshToken;
@@ -44,7 +46,7 @@ public class User extends BaseTimeEntity {
     private String profileImage;
 
     public boolean isExist() {
-        return this.userStatusEnum == UserStatusEnum.NORMAL;
+        return this.status == UserStatusEnum.NORMAL;
     }
 
     public void nonPasswordProfileUpdate(ProfileRequestDto requestDto, String profileImage) {
@@ -67,11 +69,11 @@ public class User extends BaseTimeEntity {
     }
 
     public void updateStatusVeryfied() {
-        this.userStatusEnum = UserStatusEnum.NORMAL;
+        this.status = UserStatusEnum.NORMAL;
     }
 
     public void updateStatusSignout() {
-        this.userStatusEnum = UserStatusEnum.SECESSION;
+        this.status = UserStatusEnum.SECESSION;
     }
 
 }
