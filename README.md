@@ -76,10 +76,14 @@ private void user() {}
    - 게시글과 댓글은 종속된 엔티티가 테스트 코드 내에서 제대로 존재하지 않아서 통과하지 못하는 것으로 보인다.
 
 
+### 🛠️🪚
+🛠️ issue : security 관련 기능들이 동작하지 않음.. 🪚
+- import 문이 활성화 되지 않는데 아직 해결 중
 - [ ]  **🆕 Controller Test 추가하기**
     - `@WebMvcTest` 를 사용하여 Controller Test 를 추가합니다.
     - Post, Comment Controller 에 대해서 테스트를 추가합니다.
     - 특정 상황에 예외가 정상적으로 발생하고 있는지도 테스트 합니다.
+
 
 - [ ]  **🆕 Service Test 추가하기**
     - `@ExtendWith` 를 사용하여 Service Test 를 추가합니다.
